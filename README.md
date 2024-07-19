@@ -2,15 +2,32 @@
 
 A gif search application using the Giphy service
 
-## Getting Started
+# Primary Requirements:
+## Technical
+- Primary platforms - iOS & Android;
+- Auto search - requests to retrieve Gif information from the service are made automatically with a small delay after user stops typing;
+- Pagination - loading more results when scrolling;
+- Vertical & horizontal orientation support;
+- Error handling;
+- Unit tests - as much as you see fit;
 
-This project is a starting point for a Flutter application.
+## UI
+- Responsive & matching platform guidelines;
+- At least 2 views sourced by data from Giphy;
+- Results are displayed in a grid;
+- Clicking on a grid item should navigate to a detailed Gif view.
+- Loading indicators;
+- Error display;
 
-A few resources to get you started if this is your first Flutter project:
+## Bonus points:
+- Using state management approaches or libraries such as BLoC (flutter_bloc), Riverpod or others;
+- Using an understandable architecture pattern;
+- Page navigation is separate from page widget code (a Coordinator pattern or similar);
+- Network availability handling;
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Notes:
+- No time limit. Quality > Speed;
+- Documentation (https://developers.giphy.com/docs/api/)
+- UI up to interpretation - only things mentioned in requirements are mandatory;
+- Flutter version MUST be noted in repository ReadMe file;
+- If you were not able to complete some of the requirements, please note down what you tried and what was the result;
