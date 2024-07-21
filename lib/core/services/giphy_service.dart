@@ -4,16 +4,29 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/giphy_model.dart';
 
 class GiphyService {
-  final String baseUrl = 'https://api.giphy.com/v1/gifs/trending';
+  final String baseUrl = 'https://api.giphy.com/v1/gifs';
   final String apiKey = dotenv.env['GIPHY_API_KEY'] ?? '';
 
-  Future<GiphyModel> fetchTrendingGifs({int offset = 0, int limit = 25}) async {
-    final response = await http.get(Uri.parse('$baseUrl?api_key=$apiKey&offset=$offset&limit=$limit'));
+  Future<GiphyModel> fetchGifs({String? query, int offset = 0, int limit = 25}) async {
+    final url = query == null
+        ? '$baseUrl/trending?api_key=$apiKey&offset=$offset&limit=$limit'
+        : '$baseUrl/search?api_key=$apiKey&q=$query&offset=$offset&limit=$limit';
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       return GiphyModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load GIFs: ${response.statusCode}');
+      throw StatusCodeException(response.statusCode);
     }
   }
+}
+
+class StatusCodeException implements Exception {
+  final int statusCode;
+  StatusCodeException(this.statusCode);
+
+  @override
+  String toString() => "$statusCode";
+
+  int getStatusCode() => statusCode;
 }

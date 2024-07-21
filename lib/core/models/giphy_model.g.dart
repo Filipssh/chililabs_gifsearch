@@ -30,19 +30,35 @@ Map<String, dynamic> _$GifDataToJson(GifData instance) => <String, dynamic>{
     };
 
 Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
-      fixedWidthSmall: FixedWidthSmall.fromJson(
-          json['fixed_width_small'] as Map<String, dynamic>),
+      fixedWidthDownsampled: FixedWidthDownsampled.fromJson(
+          json['fixed_width_downsampled'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
-      'fixed_width_small': instance.fixedWidthSmall,
+      'fixed_width_downsampled': instance.fixedWidthDownsampled,
+    };
+
+FixedWidthDownsampled _$FixedWidthDownsampledFromJson(
+        Map<String, dynamic> json) =>
+    FixedWidthDownsampled(
+      url: json['url'] as String,
+      width: json['width'] as String,
+      height: json['height'] as String,
+    );
+
+Map<String, dynamic> _$FixedWidthDownsampledToJson(
+        FixedWidthDownsampled instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
     };
 
 FixedWidthSmall _$FixedWidthSmallFromJson(Map<String, dynamic> json) =>
     FixedWidthSmall(
-      url: json['url'] as String,
-      width: json['width'] as String,
-      height: json['height'] as String,
+      url: json['url'] as String?,
+      width: json['width'] as String?,
+      height: json['height'] as String?,
     );
 
 Map<String, dynamic> _$FixedWidthSmallToJson(FixedWidthSmall instance) =>

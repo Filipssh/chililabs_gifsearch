@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'core/common/providers/gif_provider.dart';
 import 'core/theme/theme.dart';
-import 'features/search/presentation/pages/trending_page.dart';
+import 'pages/trending_page.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -11,13 +13,15 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gif Search',
-      theme: AppTheme.darkThemeMode,
-      home: const TrendingPage(),
+    return ChangeNotifierProvider(
+      create: (context) => GifProvider(),
+      child: MaterialApp(
+        title: 'Giphy App',
+        theme: AppTheme.darkThemeMode,
+        home: const TrendingPage(),
+      ),
     );
   }
 }

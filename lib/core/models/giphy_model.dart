@@ -26,20 +26,33 @@ class GifData {
 
 @JsonSerializable()
 class Images {
-  @JsonKey(name: 'fixed_width_small')
-  final FixedWidthSmall fixedWidthSmall;
+  @JsonKey(name: 'fixed_width_downsampled')
+  final FixedWidthDownsampled fixedWidthDownsampled;
 
-  Images({required this.fixedWidthSmall});
+  Images({required this.fixedWidthDownsampled});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
   Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }
 
 @JsonSerializable()
-class FixedWidthSmall {
+class FixedWidthDownsampled {
   final String url;
   final String width;
   final String height;
+
+  FixedWidthDownsampled({required this.url, required this.width, required this.height});
+
+  factory FixedWidthDownsampled.fromJson(Map<String, dynamic> json) => _$FixedWidthDownsampledFromJson(json);
+  Map<String, dynamic> toJson() => _$FixedWidthDownsampledToJson(this);
+}
+
+@JsonSerializable()
+class FixedWidthSmall {
+  // It's not guaranteed, that the gifs have a FixedWidthSmall size
+  final String? url;
+  final String? width;
+  final String? height;
 
   FixedWidthSmall({required this.url, required this.width, required this.height});
 
