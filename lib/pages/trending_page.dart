@@ -18,7 +18,7 @@ class _TrendingPageState extends State<TrendingPage> {
     super.initState();
     gifProvider = Provider.of<GifProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      gifProvider.refreshGifs(); // Fetch trending GIFs initially
+      gifProvider.reset(); // Fetch trending GIFs initially
     });
   }
 
@@ -35,7 +35,7 @@ class _TrendingPageState extends State<TrendingPage> {
                 context,
                 MaterialPageRoute(builder: (context) => const SearchPage()),
               ).then((_) {
-                gifProvider.refreshGifs();
+                gifProvider.reset();
               });
             },
           ),

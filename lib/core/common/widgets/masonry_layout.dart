@@ -38,43 +38,68 @@ class MasonryLayout extends StatelessWidget {
         }
         return false;
       },
-      child: MasonryGridView.builder(
-        padding: const EdgeInsets.all(4),
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-        gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
-        ),
-        itemCount: gifProvider.gifs.length + (gifProvider.hasMore ? 1 : 0),
-        itemBuilder: (context, index) {
-
-          final gif = gifProvider.gifs[index].images.fixedWidthDownsampled;
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Container(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              child: AspectRatio(
-                aspectRatio: double.parse(gif.width) / double.parse(gif.height),
-                child: Image.network(
-                  gif.url,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) {
-                      return child;
-                    }
-                    else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                            value: progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+      child: RefreshIndicator(
+        onRefresh: () => gifProvider.refresh(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              MasonryGridView.builder(
+                padding: const EdgeInsets.all(4),
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
+                ),
+                itemCount: gifProvider.gifs.length,
+                itemBuilder: (context, index) {
+                  final gif = gifProvider.gifs[index].images.fixedWidthDownsampled;
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      child: AspectRatio(
+                        aspectRatio: double.parse(gif.width) / double.parse(gif.height),
+                        child: Image.network(
+                          gif.url,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) {
+                              return child;
+                            }
+                            else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    value: progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+                                ),
+                              );
+                            }
+                          },
                         ),
-                      );
-                    }
-                  },
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Center(
+                  child: Text(
+                    gifProvider.hasMore ? '': "You've reached the end of this list",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w300,
+                      height: 5.0,
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

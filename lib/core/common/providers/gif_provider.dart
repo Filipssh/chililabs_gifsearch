@@ -39,23 +39,23 @@ class GifProvider extends ChangeNotifier {
         print('(GifProvider) Error fetching GIFs: $e');
       }
 
-      switch (e.toString() as int){
-        case 400:
+      switch (e.toString()){
+        case '400':
           errorMessage = 'Bad request. Please try again.';
           break;
-        case 401:
+        case '401':
           errorMessage = 'Unauthorized. Please check your API key.';
           break;
-        case 403:
+        case '403':
           errorMessage = 'Forbidden. You do not have permission to access this resource.';
           break;
-        case 404:
+        case '404':
           errorMessage = 'Resource not found. Please try again.';
           break;
-        case 429:
+        case '429':
           errorMessage = 'API call rate limit exceeded. Please try again later.';
           break;
-        case 500:
+        case '500':
           errorMessage = 'Internal server error. Please try again later.';
           break;
         default:
@@ -67,7 +67,14 @@ class GifProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> refreshGifs() async {
+  Future<void> refresh() async {
+    gifs.clear();
+    offset = 0;
+    hasMore = true;
+    await fetchGifs();
+  }
+
+  Future<void> reset() async {
     gifs.clear();
     offset = 0;
     hasMore = true;
