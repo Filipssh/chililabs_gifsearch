@@ -17,7 +17,7 @@ Tools • Dart 3.4.3 • DevTools 2.34.3
 - [x] Pagination - loading more results when scrolling;
 - [x] Vertical & horizontal orientation support;
 - [x] Error handling;
-- [ ] Unit tests - as much as you see fit;
+- [x] Unit tests - as much as you see fit;
 
 ## UI
 - [ ] Responsive & matching platform guidelines;

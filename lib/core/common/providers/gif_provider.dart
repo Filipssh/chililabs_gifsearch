@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:chililabs_gifsearch/core/models/giphy_model.dart';
 import 'package:chililabs_gifsearch/core/services/giphy_service.dart';
+import 'package:http/http.dart';
 
 class GifProvider extends ChangeNotifier {
   List<GifData> gifs = [];
@@ -26,7 +27,7 @@ class GifProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      GiphyModel fetchedGifs = await GiphyService().fetchGifs(query: query, offset: offset, limit: limit);
+      GiphyModel fetchedGifs = await GiphyService(Client()).fetchGifs(query: query, offset: offset, limit: limit);
 
       offset += fetchedGifs.data.length;
       gifs.addAll(fetchedGifs.data);

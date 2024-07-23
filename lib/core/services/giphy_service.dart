@@ -4,6 +4,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/giphy_model.dart';
 
 class GiphyService {
+  final http.Client client;
+  GiphyService(this.client);
+
   final String baseUrl = 'https://api.giphy.com/v1/gifs';
   final String apiKey = dotenv.env['GIPHY_API_KEY'] ?? '';
 
@@ -11,7 +14,7 @@ class GiphyService {
     final url = query == null
         ? '$baseUrl/trending?api_key=$apiKey&offset=$offset&limit=$limit'
         : '$baseUrl/search?api_key=$apiKey&q=$query&offset=$offset&limit=$limit';
-    final response = await http.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       return GiphyModel.fromJson(jsonDecode(response.body));
