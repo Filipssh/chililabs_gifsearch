@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:chililabs_gifsearch/routes/routes.dart';
 import '../providers/gif_provider.dart';
 
 class MasonryLayout extends StatelessWidget {
@@ -61,21 +62,29 @@ class MasonryLayout extends StatelessWidget {
                       color: Theme.of(context).colorScheme.surfaceContainer,
                       child: AspectRatio(
                         aspectRatio: double.parse(gif.width) / double.parse(gif.height),
-                        child: Image.network(
-                          gif.url,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, progress) {
-                            if (progress == null) {
-                              return child;
-                            }
-                            else {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                    value: progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
-                                ),
-                              );
-                            }
-                          },
+                        child:InkWell(
+                          onTap: () => Navigator.of(context).pushNamed(
+                            Routes.details,
+                            arguments: {
+                              'id': gifProvider.gifs[index].id,
+                            },
+                          ),
+                          child: Image.network(
+                            gif.url,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) {
+                                return child;
+                              }
+                              else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                      value: progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ),

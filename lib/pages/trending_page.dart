@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chililabs_gifsearch/core/common/widgets/masonry_layout.dart';
 import 'package:chililabs_gifsearch/core/common/providers/gif_provider.dart';
-import 'search_page.dart';
+import 'package:chililabs_gifsearch/routes/routes.dart';
 
 class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
@@ -31,10 +31,7 @@ class _TrendingPageState extends State<TrendingPage> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SearchPage()),
-              ).then((_) {
+              Navigator.of(context).pushNamed(Routes.search).then((_) {
                 gifProvider.reset();
               });
             },

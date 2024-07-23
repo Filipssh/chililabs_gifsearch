@@ -1,9 +1,9 @@
+import 'package:chililabs_gifsearch/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'core/common/providers/gif_provider.dart';
 import 'core/theme/theme.dart';
-import 'pages/trending_page.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Giphy App',
         theme: AppTheme.darkThemeMode,
-        home: const TrendingPage(),
+        initialRoute: Routes.trending,
+        onGenerateRoute: Routes.generateRoute,
       ),
     );
   }
