@@ -15,10 +15,12 @@ class GiphyModel {
 @JsonSerializable()
 class GifData {
   final String id;
+  final String title;
   final String url;
+  final GiphyUser? user;
   final Images images;
 
-  GifData({required this.id, required this.url, required this.images});
+  GifData({required this.id, required this.title, required this.url, required this.user, required this.images});
 
   factory GifData.fromJson(Map<String, dynamic> json) => _$GifDataFromJson(json);
   Map<String, dynamic> toJson() => _$GifDataToJson(this);
@@ -26,36 +28,45 @@ class GifData {
 
 @JsonSerializable()
 class Images {
-  @JsonKey(name: 'fixed_width_downsampled')
-  final FixedWidthDownsampled fixedWidthDownsampled;
+  @JsonKey(name: 'original')
+  final ImageData original;
 
-  Images({required this.fixedWidthDownsampled});
+  @JsonKey(name: 'fixed_width_downsampled')
+  final ImageData fixedWidthDownsampled;
+
+  Images({required this.original, required this.fixedWidthDownsampled});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
   Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }
 
 @JsonSerializable()
-class FixedWidthDownsampled {
+class GiphyUser {
+  @JsonKey(name: 'avatar_url')
+  final String avatarUrl;
+
+  @JsonKey(name: 'profile_url')
+  final String profileUrl;
+
+  final String? username;
+
+  @JsonKey(name: 'display_name')
+  final String? displayName;
+
+  GiphyUser({required this.avatarUrl, required this.profileUrl, required this.username, required this.displayName});
+
+  factory GiphyUser.fromJson(Map<String, dynamic> json) => _$GiphyUserFromJson(json);
+  Map<String, dynamic> toJson() => _$GiphyUserToJson(this);
+}
+
+@JsonSerializable()
+class ImageData {
   final String url;
   final String width;
   final String height;
 
-  FixedWidthDownsampled({required this.url, required this.width, required this.height});
+  ImageData({required this.url, required this.width, required this.height});
 
-  factory FixedWidthDownsampled.fromJson(Map<String, dynamic> json) => _$FixedWidthDownsampledFromJson(json);
-  Map<String, dynamic> toJson() => _$FixedWidthDownsampledToJson(this);
-}
-
-@JsonSerializable()
-class FixedWidthSmall {
-  // It's not guaranteed, that the gifs have a FixedWidthSmall size
-  final String? url;
-  final String? width;
-  final String? height;
-
-  FixedWidthSmall({required this.url, required this.width, required this.height});
-
-  factory FixedWidthSmall.fromJson(Map<String, dynamic> json) => _$FixedWidthSmallFromJson(json);
-  Map<String, dynamic> toJson() => _$FixedWidthSmallToJson(this);
+  factory ImageData.fromJson(Map<String, dynamic> json) => _$ImageDataFromJson(json);
+  Map<String, dynamic> toJson() => _$ImageDataToJson(this);
 }
