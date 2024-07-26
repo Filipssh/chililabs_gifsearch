@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:chililabs_gifsearch/core/common/widgets/network_image_widget.dart';
-import 'package:chililabs_gifsearch/core/models/giphy_model.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../core/common/providers/gif_provider.dart';
 
 class DetailPage extends StatefulWidget {
-  final GifData gif;
-
-  const DetailPage({super.key, required this.gif});
+  const DetailPage({super.key});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -16,11 +15,14 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
+    final gifProvider = Provider.of<GifProvider>(context);
+    final gif = gifProvider.gifs[gifProvider.selectedIndex];
+    // alter url to get low res avatar
+    final avatarUrl = gif.user?.avatarUrl.split(RegExp(r'\.(?=\w*$)')).join('/80h.');
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    // alter url to get low res avatar
-    final avatarUrl = widget.gif.user?.avatarUrl.split(RegExp(r'\.(?=\w*$)')).join('/80h.');
 
     return Scaffold(
       appBar: AppBar(),
@@ -39,7 +41,7 @@ class _DetailPageState extends State<DetailPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: Text(
-                        widget.gif.title,
+                        gif.title,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -49,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     Flexible(
                       fit: FlexFit.loose,
-                      child: NetworkImageWidget(image: widget.gif.images.original),
+                      child: NetworkImageWidget(image: gif.images.original),
                     )
                   ]
               ),)
@@ -87,40 +89,41 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          (widget.gif.user?.displayName == ''
-                            ? widget.gif.user?.username
-                            : widget.gif.user?.displayName)
-                          ??"By unknown user"
-                        ),
-                        InkWell(
-                          child: Text(
-                            widget.gif.user != null
-                              ? '@${widget.gif.user!.username}'
-                              : '',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              (gif.user?.displayName == ''
+                                  ? gif.user?.username
+                                  : gif.user?.displayName)
+                                  ??"By unknown user"
                           ),
-                          onTap: () {
-                            if (widget.gif.user != null) {
-                              launchUrl(Uri.parse(widget.gif.user!.profileUrl));
-                            }
-                          },
-                        ),
-                      ],
+                          InkWell(
+                            child: Text(
+                              gif.user != null
+                                  ? '@${gif.user!.username}'
+                                  : '',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            onTap: () {
+                              if (gif.user != null) {
+                                launchUrl(Uri.parse(gif.user!.profileUrl));
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   IconButton(
                     onPressed: () {
                       // opens original gif in browser (to download)
-                      launchUrl(Uri.parse('https://i.giphy.com/media/${widget.gif.id}/giphy.gif'));
+                      launchUrl(Uri.parse('https://i.giphy.com/media/${gif.id}/giphy.gif'));
                     },
                     icon: Icon(
                       Icons.open_in_browser,

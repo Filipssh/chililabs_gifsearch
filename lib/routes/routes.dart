@@ -17,8 +17,7 @@ class Routes {
       case search:
         return MaterialPageRoute(builder: (_) => const SearchPage());
       case details:
-        final data = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) => DetailPage(gif: data['gif']));
+        return MaterialPageRoute(builder: (_) => const DetailPage());
       default:
         return MaterialPageRoute(builder: (_) => const TrendingPage());
     }

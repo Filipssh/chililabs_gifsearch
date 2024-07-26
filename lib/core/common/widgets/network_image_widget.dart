@@ -33,6 +33,22 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
                 );
               }
             },
+            errorBuilder: (context, exception, stackTrace) {
+              return Container(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                child:Center(
+                  child: Text(
+                    "Can't display GIF",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w300,
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

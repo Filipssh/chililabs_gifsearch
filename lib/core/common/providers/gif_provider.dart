@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:chililabs_gifsearch/core/models/giphy_model.dart';
 import 'package:chililabs_gifsearch/core/services/giphy_service.dart';
@@ -11,6 +12,7 @@ class GifProvider extends ChangeNotifier {
   final int limit = 25;
   String? query;
   String? errorMessage;
+  int selectedIndex = 0;
 
   Future<void> fetchGifs({String? searchQuery}) async {
     if ((isLoading || !hasMore) && searchQuery == query) return;
@@ -35,9 +37,7 @@ class GifProvider extends ChangeNotifier {
         hasMore = false;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('(GifProvider) Error fetching GIFs: $e');
-      }
+      developer.log('(GifProvider) Error fetching GIFs', error: e);
 
       switch (e.toString()){
         case '400':
@@ -84,5 +84,9 @@ class GifProvider extends ChangeNotifier {
 
   void clearErrorMessage() {
     errorMessage = null;
+  }
+
+  void selectGif(int index){
+    selectedIndex = index;
   }
 }

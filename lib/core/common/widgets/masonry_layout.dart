@@ -12,13 +12,6 @@ class MasonryLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final gifProvider = Provider.of<GifProvider>(context);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (gifProvider.errorMessage != null) {
-        _showErrorDialog(context, gifProvider.errorMessage!);
-        gifProvider.clearErrorMessage();
-      }
-    });
-
     // Show a placeholder when loading
     if (gifProvider.gifs.isEmpty) {
       return Center(
@@ -58,13 +51,11 @@ class MasonryLayout extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final gif = gifProvider.gifs[index].images.fixedWidthDownsampled;
                   return InkWell(
-                    onTap: () => Navigator.of(context).pushNamed(
-                      Routes.details,
-                      arguments: {
-                        'gif': gifProvider.gifs[index],
-                      },
-                    ),
-                    child: NetworkImageWidget(image:gif),
+                    onTap: () {
+                      gifProvider.selectGif(index);
+                      Navigator.of(context).pushNamed(Routes.details);
+                    },
+                    child: NetworkImageWidget(image: gif),
                   );
                 },
               ),
@@ -72,7 +63,7 @@ class MasonryLayout extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Center(
                   child: Text(
-                    gifProvider.hasMore ? '': "You've reached the end of this list",
+                    gifProvider.hasMore ? '' : "You've reached the end of this list",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
@@ -87,26 +78,6 @@ class MasonryLayout extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

@@ -8,6 +8,9 @@ Framework • revision 761747bfc5 (7 weeks ago) • 2024-06-05 22:15:13 +0200
 Engine • revision edd8546116
 Tools • Dart 3.4.3 • DevTools 2.34.3
 ```
+# Setting up:
+Create a `.env` file on project root with the contents:
+<pre><code>GIPHY_API_KEY=<i>_your_api_key_</i></code></pre>
 
 # Primary Requirements:
 ## Technical
@@ -27,16 +30,14 @@ Tools • Dart 3.4.3 • DevTools 2.34.3
 - [x] Error display;
 
 ## Bonus points:
-- [ ] Using state management approaches or libraries such as BLoC (flutter_bloc), Riverpod or others;
+- [x] Using state management approaches or libraries such as BLoC (flutter_bloc), Riverpod or others;
+  - All state management between pages is done with the Provider package.
 - [x] Using an understandable architecture pattern;
+  - Trying to follow S.O.L.I.D. principles. I need more experience to understand if I've done it right.
 - [x] Page navigation is separate from page widget code (a Coordinator pattern or similar);
-  - see routes.dart
-- [ ] Network availability handling;
+  - (See lib\routes\routes.dart)
+- [x] Network availability handling;
 
-# Notes:
-- No time limit. Quality > Speed;
-- Documentation (https://developers.giphy.com/docs/api/)
-- UI up to interpretation - only things mentioned in requirements are mandatory;
-- Flutter version MUST be noted in repository ReadMe file;
-- If you were not able to complete some of the requirements, please note down what you tried and what was the result;
-  - I tried adding an option to download images with flutter_downloader in the detailed gif view. Too many problems with getting permissions and making status notifications
+# Author's Notes:
+- I tried adding an option to download images with flutter_downloader in the detailed gif view. Too many problems with getting permissions and making status notifications.
+- There is only one unit test. It is to show how I _would_ approach testing, not that I believe that is a decent coverage.
