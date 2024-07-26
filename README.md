@@ -11,6 +11,9 @@ Tools • Dart 3.4.3 • DevTools 2.34.3
 # Setting up:
 Create a `.env` file on project root with the contents:
 <pre><code>GIPHY_API_KEY=<i>_your_api_key_</i></code></pre>
+Run `flutter pub get` in terminal,
+
+Run `main.dart`
 
 # Primary Requirements:
 ## Technical
